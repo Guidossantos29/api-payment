@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cart {
+  id        Int        @id @default(autoincrement())
+  userId    Int        @unique
+  createdAt DateTime   @default(now())
+  User      User       @relation(fields: [userId], references: [id])
+  CartItem  CartItem[]
+}
+
+model CartItem {
+  id        Int     @id @default(autoincrement())
+  cartId    Int
+  productId Int
+  quantity  Int
+  Cart      Cart    @relation(fields: [cartId], references: [id])
+  Product   Product @relation(fields: [productId], references: [id])
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  url       String
+  productId Int
+  Product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id        Int         @id @default(autoincrement())
+  userId    Int
+  total     Float
+  status    String
+  createdAt DateTime    @default(now())
+  User      User        @relation(fields: [userId], references: [id])
+  OrderItem OrderItem[]
+}
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  price     Float
+  Order     Order   @relation(fields: [orderId], references: [id])
+  Product   Product @relation(fields: [productId], references: [id])
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  createdAt   DateTime    @default(now())
+  stock       Int
+  updatedAt   DateTime
+  CartItem    CartItem[]
+  Image       Image[]
+  OrderItem   OrderItem[]
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String
+  role     String  @default("USER")
+  Cart     Cart?
+  Order    Order[]
+
+  Payment Payment[]
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  amount    Float
+  createdAt DateTime @default(now())
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id])
+}
