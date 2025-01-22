@@ -71,13 +71,14 @@ model User {
   role     String  @default("USER")
   Cart     Cart?
   Order    Order[]
-
   Payment Payment[]
 }
 
 model Payment {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   amount    Float
+  currency  String
+  status    String
   createdAt DateTime @default(now())
   userId    Int
   User      User     @relation(fields: [userId], references: [id])
