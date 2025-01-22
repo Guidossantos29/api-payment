@@ -22,7 +22,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDefinition));
 
 
 app.use('/api/', paymentRoutes);
-app.use('/auth', authRoutes);
+app.use('/login', authRoutes);
 
 
 app.listen(PORT, () => {
