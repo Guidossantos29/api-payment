@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import swaggerUi from 'swagger-ui-express'; 
 import swaggerDefinition from "./config/swagger";
 import paymentRoutes from "./routes/paymentRoutes";
+import authRoutes from "./routes/authRoutes";
  
 
 dotenv.config();
@@ -21,6 +22,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDefinition));
 
 
 app.use('/api/', paymentRoutes);
+app.use('/auth', authRoutes);
+
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);

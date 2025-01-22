@@ -175,6 +175,88 @@ const swaggerDefinition = {
         },
       },
     },
+    '/login': {
+      post: {
+        summary: 'Realizar login',
+        description: 'Autentica um usuário e retorna um token JWT para acessar a API',
+        operationId: 'loginUser',
+        tags: ['Autenticação'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  username: {
+                    type: 'string',
+                    description: 'Email ou nome de usuário do usuário',
+                  },
+                  password: {
+                    type: 'string',
+                    description: 'Senha do usuário',
+                  },
+                },
+                required: ['username', 'password'],
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Login realizado com sucesso',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    token: {
+                      type: 'string',
+                      description: 'Token JWT para autenticação do usuário',
+                    },
+                  },
+                  example: {
+                    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInVzZXJuYW1lIjoidGVzdGVAY29tLmJyIiwiaWF0IjoxNjE2OTg0NzQyfQ.I1mXYdc7WJxf3sxdq8uqXZj34cQddVj5_ykxWJztgaI',
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            description: 'Erro de autenticação (usuário ou senha incorretos)',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: { type: 'string' },
+                  },
+                  example: {
+                    message: 'Credenciais inválidas.',
+                  },
+                },
+              },
+            },
+          },
+          500: {
+            description: 'Erro interno no servidor',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: { type: 'string' },
+                  },
+                  example: {
+                    message: 'Erro interno no servidor.',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
 };
 
