@@ -175,7 +175,7 @@ const swaggerDefinition = {
         },
       },
     },
-    '/login': {
+    '/auth/login': {
       post: {
         summary: 'Realizar login',
         description: 'Autentica um usuário e retorna um token JWT para acessar a API',
